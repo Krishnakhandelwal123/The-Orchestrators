@@ -72,11 +72,12 @@ const Sky = () => {
                         className="text-6xl md:text-9xl tracking-tight text-neutral-800 text-center select-none leading-tight"
                     >
                         <span className="block">
-                            Turning passions into
+                            Turning skills into
                         </span>
                         <span className="block text-right">
-                            businesses
+                            careers
                         </span>
+
                     </h1>
                 </div>
 
@@ -92,11 +93,12 @@ const Sky = () => {
 
                     <div className='w-[33%] '>
                         <h1 className='text-2xl font-semibold'>
-                            More ways to earn
+                            More paths to success
                         </h1>
-                        <p className='mt-5 '>
-                            On Devfund, you can build a lasting business outside of the ad-based ecosystem, with revenue streams ranging from membership for offering ongoing benefits, to online shops for selling individual videos, podcast episodes, and more.
+                        <p className='mt-5'>
+                            SkillSync empowers talented students and developers with career-boosting support through mentorship, community, and growth-funding opportunities.
                         </p>
+
                         <button className='text-white mt-5 bg-black rounded-3xl p-3 pr-5 pl-5 cursor-pointer'>
                             Create Account
                         </button>
@@ -105,9 +107,10 @@ const Sky = () => {
                         <h1 className='text-2xl font-semibold'>
                             Unlock growth
                         </h1>
-                        <p className='mt-5'>
-                            Devfund isn’t just for creative growth, it’s for professional growth too. Get in-depth analytics about your fans, dig into powerful relationship management tools, and tap into a growing creator community.
+                        <p className='mt-12'>
+                            SkillSync isn’t just about learning — it’s about career acceleration. Gain powerful insights, connect with supporters, and grow through a strong community that believes in your skills.
                         </p>
+
                     </div>
                 </div>
             </div>

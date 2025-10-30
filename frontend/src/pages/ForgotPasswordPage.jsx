@@ -24,8 +24,10 @@ const ForgotPasswordPage = () => {
         }
 
         setIsLoading(true);
-        await forgotPassword(email);
-        setSubmitted(true);
+        const result = await forgotPassword(email);
+        if (result.success) {
+            setSubmitted(true);
+        }
         
     };
 

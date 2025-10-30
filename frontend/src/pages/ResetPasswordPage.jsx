@@ -36,9 +36,11 @@ const ResetPasswordPage = () => {
         }
 
         setIsLoading(true);
-        await resetPassword(token,password)
-
-        setSuccess(true);
+        const result = await resetPassword(token, password);
+        if (result.success) {
+            setSuccess(true);
+        }
+        
         setIsLoading(false);
     };
 

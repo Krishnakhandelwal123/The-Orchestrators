@@ -3,8 +3,10 @@ import dotenv from "dotenv";
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
-import authRoutes from './src/routes/authRoutes.js';
-import path from 'path';
+import authRoutes from './src/routes/authRoutes.js'; // Keep this, it's used
+// import postRoutes from './src/routes/postRoutes.js'; // Uncomment when ready to use
+// import creatorRoutes from './src/routes/creatorRoutes.js'; // Uncomment when ready to use
+// import path from 'path'; // Uncomment if path module is needed
 import { connectDB } from './src/lib/db.js';
 import { sanitizeInput } from './src/middlewares/sanitize.js';
 

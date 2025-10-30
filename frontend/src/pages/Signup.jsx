@@ -71,7 +71,7 @@ const Signup = () => {
                 <div className="w-full max-w-sm rounded-xl border border-[#424242] bg-[#212121] p-8 text-center text-white">
 
                     <h2 className="text-2xl font-bold">Create an Account</h2>
-                    <p className="mt-2 text-gray-400">Join DevFund to get started.</p>
+                    <p className="mt-2 text-gray-400">Join SkillSync to get started.</p>
 
                     {/* Google Sign-up Button */}
                     <button
@@ -160,8 +160,8 @@ const Signup = () => {
 
                     {/* Footer */}
                     <footer className="mt-8 text-sm text-gray-500">
-                        © 2025 DevFund. Crafted with{' '}
-                        <FaHeart className="mx-1 inline text-[#e25555]" /> by Krishna
+                        © 2025 SkillSync. Crafted with{' '}
+                        <FaHeart className="mx-1 inline text-[#e25555]" /> by Our Team
                     </footer>
                 </div>
             </motion.div>

@@ -21,10 +21,11 @@ export const useAuthStore = create((set) => ({
       set({ isCheckingAuth: false });
     }
   },
-  logout: async () => {
+  logout: async (navigate) => {
     try {
       await axiosInstance.post("/auth/logout");
       set({ authUser: null });
+      navigate("/");
       toast.success("Logged out successfully");
       
     } catch (error) {
@@ -104,10 +105,12 @@ export const useAuthStore = create((set) => ({
   forgotPassword: async (email) => {
     try {
       const res = await axiosInstance.post("/auth/forgotpassword", { email });
-      toast.success(res.data.message || "Password reset email sent");
-      return { success: true, message: res.data.message };
+      const message = res.data.message || "Password reset email sent";
+      toast.success(message);
+      return { success: true, message };
     } catch (error) {
       console.error("Forgot password error:", error);
+      // toast.error is handled by the component
       const message = error?.response?.data?.message || error?.message || "Failed to send reset email";
       toast.error(message);
       return { success: false, message };
@@ -117,31 +120,17 @@ export const useAuthStore = create((set) => ({
   resetPassword: async (token, password) => {
     try {
       const res = await axiosInstance.post(`/auth/resetpassword/${token}`, { password });
-      toast.success(res.data.message || "Password reset successfully");
-      return { success: true, message: res.data.message };
+      const message = res.data.message || "Password reset successfully";
+      toast.success(message);
+      return { success: true, message };
     } catch (error) {
       console.error("Reset password error:", error);
+      // toast.error is handled by the component
       const message = error?.response?.data?.message || error?.message || "Failed to reset password";
       toast.error(message);
       return { success: false, message };
     }
   },
 
-  becomeCreator: async (creatorData) => {
-    set({ isBecomingCreator: true });
-    try {
-      const res = await axiosInstance.post("/auth/becomecreator", creatorData);
-      set({ authUser: res.data.user });
-      toast.success(res.data.message || "Successfully became a creator!");
-      return { success: true, message: res.data.message };
-    } catch (error) {
-      console.error("Become creator error:", error);
-      const message = error?.response?.data?.message || error?.message || "Failed to become creator";
-      toast.error(message);
-      return { success: false, message };
-    } finally {
-      set({ isBecomingCreator: false });
-    }
-  },
 
 }))

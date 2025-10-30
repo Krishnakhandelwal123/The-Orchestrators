@@ -12,6 +12,7 @@ import Explore from './dashboard/Explore';
 import Notifications from './dashboard/Notifications';
 import Settings from './dashboard/Settings';
 
+
 const NavItem = ({ icon, children, isActive = false, onClick }) => (
   <button
     onClick={onClick}
@@ -31,58 +32,26 @@ const ProfileMenu = ({ logout, onClose }) => {
       icon: <User size={16} />,
       label: 'View Profile',
       action: () => {
-        // Navigate to profile page
-        console.log('View Profile clicked');
+        navigate(`/profile/${authUser.username}`); // Assuming a profile route exists
         onClose();
       },
       color: 'text-blue-400 hover:bg-blue-500/10'
     },
     {
       icon: <Edit size={16} />,
-      label: 'Edit Profile',
+      label: 'Account Settings',
       action: () => {
-        // Navigate to edit profile page
-        navigate('/s/settings');
+        navigate('/settings');
         onClose();
       },
       color: 'text-green-400 hover:bg-green-500/10'
-    },
-    {
-      icon: <DollarSign size={16} />,
-      label: 'Funding History',
-      action: () => {
-        // Navigate to funding history
-        console.log('Funding History clicked');
-        onClose();
-      },
-      color: 'text-emerald-400 hover:bg-emerald-500/10'
-    },
-    {
-      icon: <Heart size={16} />,
-      label: 'Supported Projects',
-      action: () => {
-        // Navigate to supported projects
-        console.log('Supported Projects clicked');
-        onClose();
-      },
-      color: 'text-pink-400 hover:bg-pink-500/10'
-    },
-    {
-      icon: <Bell size={16} />,
-      label: 'Notification Settings',
-      action: () => {
-        // Navigate to notification settings
-        navigate('/s/notifications');
-        onClose();
-      },
-      color: 'text-orange-400 hover:bg-orange-500/10'
     },
     {
       icon: <Shield size={16} />,
       label: 'Privacy & Security',
       action: () => {
         // Navigate to privacy settings
-        navigate('/s/settings');
+        navigate('/settings');
         onClose();
       },
       color: 'text-red-400 hover:bg-red-500/10'
@@ -109,7 +78,7 @@ const ProfileMenu = ({ logout, onClose }) => {
             <p className="font-semibold text-white">{authUser?.name}</p>
             <div className="flex items-center gap-1">
               <Heart size={12} className="text-blue-400" />
-              <p className="text-xs text-blue-400">Supporter</p>
+              <p className="text-xs text-blue-400">Student</p>
             </div>
           </div>
         </div>
@@ -131,7 +100,7 @@ const ProfileMenu = ({ logout, onClose }) => {
         <div className="h-px bg-white/10 my-2"></div>
         
         <button
-          onClick={() => {
+          onClick={async () => {
             logout();
             onClose();
           }}
@@ -184,10 +153,10 @@ const Home = () => {
   const navigate = useNavigate();
 
   const navItems = [
-    { name: 'Home', icon: <HomeIcon size={22} />, path: '/s/home' },
-    { name: 'Explore', icon: <Compass size={22} />, path: '/s/explore' },
-    { name: 'Notifications', icon: <Bell size={22} />, path: '/s/notifications' },
-    { name: 'Settings', icon: <SettingsIcon size={22} />, path: '/s/settings' },
+    { name: 'Home', icon: <HomeIcon size={22} />, path: '/' },
+    { name: 'Explore', icon: <Compass size={22} />, path: '/explore' },
+    { name: 'Industry Support', icon: <Bell size={22} />, path: '/notifications' },
+    { name: 'Settings', icon: <SettingsIcon size={22} />, path: '/settings' },
   ];
 
   // Sync active navigation with URL
@@ -263,7 +232,7 @@ const Home = () => {
       }}></div>
 
       <motion.div
-        className='relative z-10 text-white gap-8 flex h-screen p-8'
+        className='relative z-10 text-white gap-8 flex min-h-screen p-8'
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -276,7 +245,7 @@ const Home = () => {
           <div className="flex-grow p-6">
             <div className="flex items-center gap-3 mb-12 px-2">
               <Zap className="text-blue-500 h-9 w-9" />
-              <span className="text-3xl font-bold tracking-wider text-white">DevFund</span>
+              <span className="text-3xl font-bold tracking-wider text-white">SkillSync</span>
             </div>
             <nav className="flex flex-col gap-3">
               {navItems.map((item) => (
@@ -292,17 +261,7 @@ const Home = () => {
             </nav>
           </div>
           <div className="p-6">
-            {/* Only show "Become a Creator" button if user is not already a creator */}
-            {!authUser?.roles?.isCreator && (
-              <button 
-                onClick={handleBecomeCreator}
-                className="w-full flex items-center justify-center gap-3 px-4 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold hover:opacity-90 transition-opacity shadow-lg"
-              >
-                <PlusCircle size={22} />
-                Become a Creator
-              </button>
-            )}
-            
+          
             <div className="h-px bg-white/10 my-6"></div>
             
             {/* Profile Section */}
@@ -310,12 +269,16 @@ const Home = () => {
               <AnimatePresence>
                 {isProfileMenuOpen && (
                   <ProfileMenu 
-                    logout={logout} 
+                  logout={() => {
+                    // We need to navigate to the initial page after logout.
+                    // The navigation logic is handled inside the logout function in the store.
+                    logout(navigate);
+                  }} 
                     onClose={() => setIsProfileMenuOpen(false)}
                   />
                 )}
               </AnimatePresence>
-              
+               
               {/* Creator Mode Popup */}
               <div className="relative creator-popup-container">
                 <AnimatePresence>
@@ -333,11 +296,11 @@ const Home = () => {
                   }}
                 >
                   <div className="flex items-center gap-4">
-                    <img src="https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small_2x/profile-icon-design-free-vector.jpg" alt="User Avatar" className="w-12 h-12 rounded-full border-2 border-white/20" />
+                    <img src={authUser?.profilePic || `https://ui-avatars.com/api/?name=${authUser?.name}&background=6366f1&color=fff&size=80`} alt="User Avatar" className="w-12 h-12 rounded-full border-2 border-white/20" />
                     <div>
                       <p className="font-semibold">{authUser.name}</p>
                       <div className="flex items-center gap-1">
-                        <p className="text-xs text-neutral-400">Supporter</p>
+                        <p className="text-xs text-neutral-400">Student</p>
                         {authUser?.roles?.isCreator && (
                           <Crown size={10} className="text-purple-400" />
                         )}
@@ -361,7 +324,7 @@ const Home = () => {
 
         {/* Main Content Panel */}
         <motion.div
-          className='w-[78%] rounded-3xl border overflow-scroll-y scrollbar-hide border-white/10 bg-black/20 backdrop-blur-xl shadow-2xl p-8 overflow-y-auto'
+          className='w-[78%] rounded-3xl border overflow-y-scroll scrollbar-hide border-white/10 bg-black/20 backdrop-blur-xl shadow-2xl p-8'
           variants={itemVariants}
         >
           <AnimatePresence mode="wait">

@@ -47,7 +47,7 @@ const Login = () => {
                 className="left w-[57%]  text-white flex items-center justify-center">
                 <div className="w-full max-w-sm rounded-xl border border-[#424242] bg-[#212121] p-8 text-center text-white">
 
-                    <h2 className="text-2xl font-bold">Login to DevFund</h2>
+                    <h2 className="text-2xl font-bold">Login to SkillSync</h2>
                     <p className="mt-2 text-gray-400">Enter your credentials to access your account.</p>
 
                     {/* Google Sign-in */}
@@ -131,8 +131,8 @@ const Login = () => {
 
                     {/* Footer */}
                     <footer className="mt-8 text-sm text-gray-500">
-                        © 2025 DevFund. Crafted with{' '}
-                        <FaHeart className="mx-1 inline text-[#e25555]" /> by Krishna
+                        © 2025 SkillSync. Crafted with{' '}
+                        <FaHeart className="mx-1 inline text-[#e25555]" /> by Our Team
                     </footer>
                 </div>
             </motion.div>

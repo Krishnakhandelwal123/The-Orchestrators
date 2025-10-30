@@ -284,7 +284,7 @@ const resetPassword = async (req, res) => {
 
 const becomeCreator = async (req, res) => {
   try {
-    const { displayName, bio, category, avatar, socialLinks } = req.body;
+    const { displayName, bio, category, avatar, socialLinks, coverImage } = req.body;
     
     // Input validation
     if (!displayName || !bio || !category) {
@@ -338,6 +338,7 @@ const becomeCreator = async (req, res) => {
       bio: bio.trim(),
       category,
       avatar: avatar || user.profileImage || '',
+      coverImage: coverImage || '',
       socialLinks: socialLinks || {}
     };
     

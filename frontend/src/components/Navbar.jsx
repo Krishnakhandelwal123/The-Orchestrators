@@ -38,7 +38,7 @@ const HoverPopover = ({ children, content }) => {
     const role = useRole(context, { role: 'dialog' });
 
     const { getReferenceProps, getFloatingProps } = useInteractions([hover, dismiss, role]);
-    
+
     // Dynamic gradient style for the popover accent
     const accentStyle = {
         backgroundImage: `radial-gradient(circle at top left, ${content.color} 0%, transparent 60%)`,
@@ -67,7 +67,7 @@ const HoverPopover = ({ children, content }) => {
                         >
                             {/* Colorful Accent Gradient */}
                             <div className="absolute inset-0 opacity-40" style={accentStyle}></div>
-                            
+
                             <div className="relative p-6">
                                 <div className="flex items-start gap-4">
                                     <div className="text-white p-3 bg-white/10 rounded-lg">{content.icon}</div>
@@ -76,7 +76,7 @@ const HoverPopover = ({ children, content }) => {
                                         <p className="text-neutral-400 text-sm mt-1">{content.description}</p>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </motion.div>
                     )}
@@ -96,12 +96,40 @@ const Navbar = () => {
 
     // Updated nav links with rich popover content and colors
     const mainNavLinks = [
-        { name: 'Creators', href: '#', content: { icon: <Compass size={24} />, title: "Discover Creators", description: "Explore profiles, projects, and find new talent to support.", color: '#3b82f6' } },
-        { name: 'Features', href: '#', content: { icon: <Star size={24} />, title: "Platform Features", description: "Learn about our powerful tools for funding, community, and growth.", color: '#8b5cf6' } },
-        { name: 'Pricing', href: '#', content: { icon: <BarChart2 size={24} />, title: "Simple Pricing", description: "Transparent fees. We only succeed when you do. See our pricing model.", color: '#10b981' } },
-        { name: 'Updates', href: '#', content: { icon: <Rss size={24} />, title: "Latest Updates", description: "See what's new on the DevFund platform, from features to community news.", color: '#f97316' } },
-        { name: 'Resources', href: '#', content: { icon: <BookOpen size={24} />, title: "Creator Resources", description: "Guides, tutorials, and best practices to help you succeed.", color: '#ec4899' } },
+        {
+            name: 'Career Paths',
+            href: '#career-paths',
+            content: {
+                icon: <Compass size={24} />,
+                title: "Personalized Career Paths",
+                description: "Explore AI-generated career journeys based on your interests and academic profile.",
+                color: '#3b82f6'
+            }
+        },
+        {
+            name: 'Skill Builder',
+            href: '#skills',
+            content: {
+                icon: <Star size={24} />,
+                title: "Skill Pathways",
+                description: "Track your next skills — technical & soft — aligned with future job roles.",
+                color: '#8b5cf6'
+            }
+        },
+       
+        {
+            name: 'Industry Insights',
+            href: '#insights',
+            content: {
+                icon: <BarChart2 size={24} />,
+                title: "Market Trends",
+                description: "Real-time data on job demand, salary growth & emerging technologies.",
+                color: '#f97316'
+            }
+        },
+       
     ];
+
 
     useMotionValueEvent(scrollY, "change", (currentY) => {
         const delta = currentY - lastScrollY.current;
@@ -137,7 +165,7 @@ const Navbar = () => {
                     <div className="flex-shrink-0 md:absolute md:left-1/2 md:-translate-x-1/2">
                         <a href="#" className="flex items-center gap-2.5">
                             <Zap className="text-blue-500 h-7 w-7" />
-                            <span className="text-2xl font-bold tracking-wider text-white">DevFund</span>
+                            <span className="text-2xl font-bold tracking-wider text-white">SkillSync</span>
                         </a>
                     </div>
 

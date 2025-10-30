@@ -11,36 +11,15 @@ import EmailVerification from './pages/EmailVerification';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import Home from './pages/Home';
-import CreatorHome from './pages/CreatorHome';
-import BecomeCreator from './pages/BecomeCreator';
 import CustomCursor from './components/CustomCursor';
 
-
-const ProtectedRoute = ({ children }) => {
-  const { authUser } = useAuthStore();
-
-  if (!authUser) {
-    return <Navigate to='/' replace />;
-  }
-
-  if (!authUser.isVerified) {
-    return <Navigate to='/verifyemail' replace />;
-  }
-
-  return children;
-};
 
 // redirect authenticated users to the home page
 const RedirectAuthenticatedUser = ({ children }) => {
   const { authUser } = useAuthStore();
 
   if (authUser && authUser.isVerified) {
-    // Redirect based on user role
-    if (authUser.roles?.isCreator) {
-      return <Navigate to='/c/home' replace />;
-    } else {
-      return <Navigate to='/s/home' replace />;
-    }
+    return <Navigate to='/' replace />;
   }
 
   return children;
@@ -54,66 +33,19 @@ const EmailVerificationRoute = ({ children }) => {
     return <Navigate to='/' replace />;
   }
 
-  if (authUser.isVerified) {
-    // Redirect based on user role
-    if (authUser.roles?.isCreator) {
-      return <Navigate to='/c/home' replace />;
-    } else {
-      return <Navigate to='/s/home' replace />;
-    }
-  }
-
   return children;
 };
 
 // Route protection for supporter-only routes
-const SupporterRoute = ({ children }) => {
+const ProtectedRoute = ({ children }) => {
   const { authUser } = useAuthStore();
 
   if (!authUser) {
-    return <Navigate to='/' replace />;
+    return <Initial />;
   }
 
   if (!authUser.isVerified) {
     return <Navigate to='/verifyemail' replace />;
-  }
-
-  return children;
-};
-
-// Route protection for creator-only routes
-const CreatorRoute = ({ children }) => {
-  const { authUser } = useAuthStore();
-
-  if (!authUser) {
-    return <Navigate to='/' replace />;
-  }
-
-  if (!authUser.isVerified) {
-    return <Navigate to='/verifyemail' replace />;
-  }
-
-  if (!authUser.roles?.isCreator) {
-    return <Navigate to='/s/home' replace />;
-  }
-
-  return children;
-};
-
-// Route protection for become creator page - only for verified supporters
-const BecomeCreatorRoute = ({ children }) => {
-  const { authUser } = useAuthStore();
-
-  if (!authUser) {
-    return <Navigate to='/' replace />;
-  }
-
-  if (!authUser.isVerified) {
-    return <Navigate to='/verifyemail' replace />;
-  }
-
-  if (authUser.roles?.isCreator) {
-    return <Navigate to='/c/home' replace />;
   }
 
   return children;
@@ -146,29 +78,16 @@ const App = () => {
         <Route
           path="/"
           element={
-            !authUser || !authUser.isVerified
-              ? <Initial />
-              : authUser.roles?.isCreator 
-                ? <Navigate to="/c/home" replace />
-                : <Navigate to="/s/home" replace />
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
           }
         />
         
-        {/* Supporter Routes */}
-        <Route path='/s/home' element={<SupporterRoute><Home /></SupporterRoute>} />
-        <Route path='/s/explore' element={<SupporterRoute><Home /></SupporterRoute>} />
-        <Route path='/s/notifications' element={<SupporterRoute><Home /></SupporterRoute>} />
-        <Route path='/s/settings' element={<SupporterRoute><Home /></SupporterRoute>} />
-        
-        {/* Creator Routes */}
-        <Route path='/c/home' element={<CreatorRoute><CreatorHome /></CreatorRoute>} />
-        <Route path='/c/projects' element={<CreatorRoute><CreatorHome /></CreatorRoute>} />
-        <Route path='/c/analytics' element={<CreatorRoute><CreatorHome /></CreatorRoute>} />
-        <Route path='/c/supporters' element={<CreatorRoute><CreatorHome /></CreatorRoute>} />
-        <Route path='/c/settings' element={<CreatorRoute><CreatorHome /></CreatorRoute>} />
-        
-        {/* Become Creator Route */}
-        <Route path='/becomecreator' element={<BecomeCreatorRoute><BecomeCreator /></BecomeCreatorRoute>} />
+        {/* Main App Routes */}
+        <Route path='/explore' element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path='/notifications' element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path='/settings' element={<ProtectedRoute><Home /></ProtectedRoute>} />
         
         {/* Auth Routes */}
         <Route path='/login' element={<RedirectAuthenticatedUser><Login /></RedirectAuthenticatedUser>} />
@@ -185,9 +104,7 @@ const App = () => {
         />
         
         {/* catch all routes */}
-        <Route path='/s' element={<Navigate to='/s/home' replace />} />
-        <Route path='/c' element={<Navigate to='/c/home' replace />} />
-        <Route path='*' element={<Navigate to='/' replace />} />
+        <Route path='*' element={!authUser || !authUser.isVerified ? <Initial /> : <Navigate to='/' replace />} />
       </Routes>
       <Toaster />
     </>

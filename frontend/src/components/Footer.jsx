@@ -19,7 +19,7 @@ const Footer = () => {
                 {/* Right - Bold Headings */}
                 <div className="text-right">
                     <h1 className="text-white text-[6rem] font-bold leading-none">BOOST</h1>
-                    <h1 className="text-gray-400 text-[6rem] font-bold leading-none">ANALYTICS</h1>
+                    <h1 className="text-gray-400 text-[6rem] font-bold leading-none">CAREER</h1>
                 </div>
             </div>
 
@@ -89,7 +89,7 @@ const Footer = () => {
 
             {/* Footer Bottom Links */}
             <div className="flex justify-between w-full mt-auto text-sm text-gray-500">
-                <span>&copy; 2025 YourDevFund. All rights reserved.</span>
+                <span>&copy; 2025 YourSkillSync. All rights reserved.</span>
                 <span className="cursor-pointer hover:text-gray-300">Privacy Policy | Terms of Service</span>
             </div>
         </footer>

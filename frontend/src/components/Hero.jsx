@@ -20,7 +20,7 @@ const Hero = () => {
         visible: { opacity: 1, y: 0 },
     };
 
-    const headline = "Fund the Future of Development.";
+    const headline = "Find Your Future Today.";
 
     return (
         // Main container for the hero section  
@@ -56,7 +56,7 @@ const Hero = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7, delay: 0.8 }}
                     >
-                        The platform where brilliant creators get the funding they need, and supporters fuel the next wave of innovation.
+                        Empowering your career journey with AI-driven insights and personalized recommendations.
                     </motion.p>
 
                     <motion.div
@@ -66,7 +66,7 @@ const Hero = () => {
                         transition={{ duration: 0.7, delay: 1.0 }}
                     >
                         <a href="#" className="flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold text-white bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full hover:opacity-90 transition-opacity shadow-lg">
-                            Explore Creators
+                             Know Your Path 
                             <ArrowRight size={20} />
                         </a>
                         <a href="#" className="flex items-center justify-center text-base font-medium text-neutral-300 border border-neutral-700 hover:border-blue-500 hover:bg-blue-500/10 transition-colors px-8 py-4 rounded-full">

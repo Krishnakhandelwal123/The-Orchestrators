@@ -9,6 +9,7 @@ const CreatorProfileSchema = new mongoose.Schema({
     required: true
   },
   avatar: { type: String }, 
+  coverImage: { type: String },
   socialLinks: {
     github: { type: String },
     twitter: { type: String },
