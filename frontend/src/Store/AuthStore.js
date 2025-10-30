@@ -99,9 +99,8 @@ export const useAuthStore = create((set) => ({
       const message = error?.response?.data?.message || error?.message || "Verification failed";
       toast.error(message);
       return { success: false, message };
-    }
+    } 
   },
-
   forgotPassword: async (email) => {
     try {
       const res = await axiosInstance.post("/auth/forgotpassword", { email });

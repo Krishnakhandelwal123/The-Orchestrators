@@ -60,9 +60,7 @@ const signup = async (req, res) => {
         _id: newUser._id,
         name: newUser.name,
         email: newUser.email,
-        isVerified: newUser.isVerified,
-        VerificationCode,
-        VerificationCodeExpires
+        isVerified: newUser.isVerified
       });
     } else {
       res.status(400).json({ message: "Invalid user data" });
@@ -180,34 +178,45 @@ const checkAuth = (req, res) => {
 
 const verifyEmail = async (req, res) => {
   const { code } = req.body;
-
   try {
-    if (!code) {
-      return res.status(400).json({ message: "Verification code is required" });
-    }
-    
-    if (code.length !== 6 || !/^\d{6}$/.test(code)) {
-      return res.status(400).json({ message: "Invalid verification code format" });
-    }
+    if (!code) return res.status(400).json({ message: "Verification code is required" });
+    if (code.length !== 6 || !/^\d{6}$/.test(code)) return res.status(400).json({ message: "Invalid verification code format" });
 
-    const user = await User.findOne({
-      VerificationCode: code,
-      VerificationCodeExpires: { $gt: new Date() }
-    });
-
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    const user = await User.findById(req.user._id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    if (user.isVerified) return res.status(200).json({ message: "Already verified" });
+    if (!user.VerificationCode || !user.VerificationCodeExpires) return res.status(400).json({ message: "No verification code issued" });
+    if (user.VerificationCode !== code) return res.status(400).json({ message: "Invalid code" });
+    if (user.VerificationCodeExpires <= new Date()) return res.status(400).json({ message: "Code expired" });
 
     user.isVerified = true;
     user.VerificationCode = undefined;
     user.VerificationCodeExpires = undefined;
-    
     await user.save();
     await sendwelcomeemail(user.email, user.name);
-    
-    res.status(200).json({ message: 'Email verified successfully' });
+    res.status(200).json({ message: "Email verified successfully" });
   } catch (error) {
     console.error('OTP verification error:', error);
     res.status(500).json({ message: 'Server error' });
+  }
+}
+
+const resendVerification = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    if (user.isVerified) return res.status(200).json({ message: "Already verified" });
+
+    const VerificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const VerificationCodeExpires = new Date(Date.now() + 10 * 60 * 1000);
+    user.VerificationCode = VerificationCode;
+    user.VerificationCodeExpires = VerificationCodeExpires;
+    await user.save();
+    await sendOtpEmail(user.email, VerificationCode);
+    res.status(200).json({ message: "Verification code sent" });
+  } catch (error) {
+    console.error("Resend verification error:", error);
+    res.status(500).json({ message: "Server error" });
   }
 }
 
@@ -373,6 +382,7 @@ export {
   checkAuth,
   googleLogin,
   verifyEmail,
+  resendVerification,
   forgotPassword,
   resetPassword,
   becomeCreator

@@ -9,7 +9,7 @@ import {
 import { useAuthStore } from '../Store/AuthStore';
 import DashboardHome from './dashboard/DashboardHome';
 import Explore from './dashboard/Explore';
-import Notifications from './dashboard/Notifications';
+import Notification from './dashboard/Notification';
 import Settings from './dashboard/Settings';
 
 
@@ -155,7 +155,7 @@ const Home = () => {
   const navItems = [
     { name: 'Home', icon: <HomeIcon size={22} />, path: '/' },
     { name: 'Explore', icon: <Compass size={22} />, path: '/explore' },
-    { name: 'Industry Support', icon: <Bell size={22} />, path: '/notifications' },
+    { name: 'Industry Demand', icon: <Bell size={22} />, path: '/notifications' },
     { name: 'Settings', icon: <SettingsIcon size={22} />, path: '/settings' },
   ];
 
@@ -215,8 +215,8 @@ const Home = () => {
         return <DashboardHome />;
       case 'Explore':
         return <Explore />;
-      case 'Notifications':
-        return <Notifications />;
+      case 'Industry Demand':
+        return <Notification />;
       case 'Settings':
         return <Settings />;
       default:

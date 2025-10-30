@@ -3,7 +3,12 @@ import dotenv from "dotenv";
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
+import path from 'path';
+import analysisRoutes from './src/routes/analysisRoutes.js';
+import studentRoutes from './src/routes/studentRoutes.js';
 import authRoutes from './src/routes/authRoutes.js'; // Keep this, it's used
+import industryDemandRoutes from './src/routes/industryDemandRoutes.js';
+import careerRoleRoutes from './src/routes/careerRoleRoutes.js';
 // import postRoutes from './src/routes/postRoutes.js'; // Uncomment when ready to use
 // import creatorRoutes from './src/routes/creatorRoutes.js'; // Uncomment when ready to use
 // import path from 'path'; // Uncomment if path module is needed
@@ -37,6 +42,12 @@ app.use(
 );
 
 app.use("/api/auth", authRoutes);
+// serve uploaded files statically if needed (preview)
+app.use('/uploads', express.static(path.resolve('uploads')));
+app.use("/api/analysis", analysisRoutes);
+app.use("/api/students", studentRoutes);
+app.use("/api/industry-demand", industryDemandRoutes);
+app.use("/api/career-role", careerRoleRoutes);
 
 const port=process.env.PORT || 3000;
 
