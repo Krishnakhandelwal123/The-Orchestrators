@@ -232,17 +232,17 @@ const Home = () => {
       }}></div>
 
       <motion.div
-        className='relative z-10 text-white gap-8 flex min-h-screen p-8'
+        className='relative z-10 text-white gap-8 flex h-screen p-8'
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         {/* Left Sidebar Panel */}
         <motion.div
-          className='w-[22%] rounded-3xl border border-white/10 bg-black/20 backdrop-blur-xl shadow-2xl flex flex-col'
+          className='w-[22%] h-full rounded-3xl border border-white/10 bg-black/20 backdrop-blur-xl shadow-2xl flex flex-col overflow-hidden'
           variants={itemVariants}
         >
-          <div className="flex-grow p-6">
+          <div className="flex-grow p-6 overflow-hidden">
             <div className="flex items-center gap-3 mb-12 px-2">
               <Zap className="text-blue-500 h-9 w-9" />
               <span className="text-3xl font-bold tracking-wider text-white">SkillSync</span>
@@ -260,7 +260,7 @@ const Home = () => {
               ))}
             </nav>
           </div>
-          <div className="p-6">
+          <div className="p-6 flex-shrink-0">
           
             <div className="h-px bg-white/10 my-6"></div>
             
@@ -324,21 +324,22 @@ const Home = () => {
 
         {/* Main Content Panel */}
         <motion.div
-          className='w-[78%] rounded-3xl border overflow-y-scroll scrollbar-hide border-white/10 bg-black/20 backdrop-blur-xl shadow-2xl p-8'
+          className='w-[78%] h-full rounded-3xl border border-white/10 bg-black/20 backdrop-blur-xl shadow-2xl overflow-hidden flex flex-col'
           variants={itemVariants}
         >
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeNav}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="h-full"
-            >
-              {renderContent()}
-            </motion.div>
-          </AnimatePresence>
+          <div className="flex-1 overflow-y-auto scrollbar-hide p-8">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeNav}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+              >
+                {renderContent()}
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </motion.div>
       </motion.div>
     </div>
